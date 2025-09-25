@@ -20,7 +20,9 @@ import {
 //    que é carregada de um script externo.
 declare global {
   interface Window {
-    YT: any;
+    YT: {
+      Player: new (id: string, options: object) => YTPlayer;
+    };
     onYouTubeIframeAPIReady: () => void;
   }
 }
