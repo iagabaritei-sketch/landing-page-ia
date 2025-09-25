@@ -11,8 +11,7 @@ import type { Container, Engine } from "tsparticles-engine";
 import CountUp from 'react-countup';
 import { 
     FaBrain, FaRocket, FaCheck, FaChevronDown, FaChevronUp, FaUserGraduate, 
-    FaLaptopCode, FaChartLine, FaShieldAlt, FaStar, FaBookOpen, FaBullseye, 
-    FaPlayCircle, FaPenFancy, FaGraduationCap, FaMedal, FaTrophy,
+    FaShieldAlt, FaBullseye, FaPenFancy, FaGraduationCap, FaMedal, FaTrophy,
     FaVolumeUp 
 } from 'react-icons/fa';
 
@@ -21,7 +20,9 @@ import {
 //    que é carregada de um script externo.
 declare global {
   interface Window {
-    YT: any;
+    YT: {
+      Player: new (id: string, options: object) => YTPlayer;
+    };
     onYouTubeIframeAPIReady: () => void;
   }
 }
