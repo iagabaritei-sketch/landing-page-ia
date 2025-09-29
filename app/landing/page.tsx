@@ -12,7 +12,7 @@ import CountUp from 'react-countup';
 import { 
     FaBrain, FaRocket, FaCheck, FaChevronDown, FaChevronUp, FaUserGraduate, 
     FaShieldAlt, FaBullseye, FaPenFancy, FaGraduationCap, FaMedal, FaTrophy,
-    FaVolumeUp 
+    FaVolumeUp, FaArrowLeft, FaArrowRight, FaQuoteLeft 
 } from 'react-icons/fa';
 
 // --- CORREÇÃO DE TIPAGEM (any) ---
@@ -40,6 +40,7 @@ interface YTPlayer {
 // ============================================================================
 export default function LandingPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [currentPrint, setCurrentPrint] = useState(0);
     
     // --- LÓGICA DO VÍDEO COM TIPAGEM CORRIGIDA ---
     // 3. Usamos nossa interface YTPlayer para a tipagem do estado 'player'.
@@ -84,6 +85,59 @@ export default function LandingPage() {
 
     }, []);
     // --- FIM DA LÓGICA DO VÍDEO ---
+
+     // --- NOVO: LISTA DE PRINTS DOS DEPOIMENTOS ---
+    const printsDepoimentos = [
+        {
+            id: 1,
+            image: "/depoimentos/depoimento-1.jpeg",
+            alt: "Depoimento de aluno satisfeito com o IA Gabaritei",
+            description: "Aluno relatando melhora significativa nas notas"
+        },
+        
+        {
+            id: 2, 
+            image: "/depoimentos/depoimento-2.jpeg",
+            alt: "Conversa mostrando aprovação de aluno",
+            description: "Comemoração de aprovação após usar a plataforma"
+        },
+        {
+            id: 3,
+            image: "/depoimentos/depoimento-3.jpeg",
+            alt: "Feedback positivo sobre o método",
+            description: "Aluno destacando a eficácia do plano de estudos"
+        },
+        {
+            id: 4,
+            image: "/depoimentos/depoimento-4.jpeg", 
+            alt: "Relato de experiência positiva",
+            description: "Depoimento sobre a transformação no aprendizado"
+        },
+        {
+            id: 5,
+            image: "/depoimentos/depoimento-5.jpeg",
+            alt: "Conversa de agradecimento",
+            description: "Aluno agradecendo pelos resultados obtidos"
+        },
+
+        {
+            id: 6,
+            image: "/depoimentos/depoimento-6.jpeg",
+            alt: "Depoimento de aluno satisfeito com o IA Gabaritei",
+            description: "Aluno relatando melhora significativa nas notas"
+        }
+        
+        
+    ];
+
+    // --- NOVO: FUNÇÕES PARA NAVEGAR NO CARROSSEL ---
+    const nextPrint = () => {
+        setCurrentPrint((prev) => (prev + 1) % printsDepoimentos.length);
+    };
+
+    const prevPrint = () => {
+        setCurrentPrint((prev) => (prev - 1 + printsDepoimentos.length) % printsDepoimentos.length);
+    };
     
     const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
 
@@ -125,7 +179,15 @@ export default function LandingPage() {
             setTimeLeft({ hours, minutes, seconds });
         }, 1000);
 
-        return () => clearInterval(timer);
+        // --- NOVO: AUTO-ROTAÇÃO DO CARROSSEL ---
+        const carouselInterval = setInterval(() => {
+            setCurrentPrint((prev) => (prev + 1) % printsDepoimentos.length);
+        }, 5000); // Muda a cada 5 segundos
+
+        return () => {
+            clearInterval(timer);
+            clearInterval(carouselInterval); // Limpa o intervalo do carrossel também
+        };
     }, []);
     
     const faqItems = [
@@ -152,6 +214,26 @@ export default function LandingPage() {
             <div className="fixed bottom-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
 
             <main className="relative z-10">
+                {/* --- NOVO: HEADER COM LOGO --- */}
+            <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+                <div className="container mx-auto px-6 py-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                            <FaBrain className="text-3xl text-cyan-400" />
+                            <div>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                                    IA GABARITEI
+                                </h1>
+                                <p className="text-xs text-gray-400">Plataforma de Estudos Inteligente</p>
+                            </div>
+                        </div>
+                        
+                        <a href="#planos" className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                            Começar Agora
+                        </a>
+                    </div>
+                </div>
+            </header>
                 {/* ======================================= */}
                 {/* SEÇÃO 1: HEADLINE E VÍDEO DE VENDAS     */}
                 {/* ======================================= */}
@@ -217,6 +299,97 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </section>
+                {/* ======================================= */}
+                {/* --- NOVA SEÇÃO: CARROSSEL DE PRINTS --- */}
+                {/* ======================================= */}
+                <section className="py-20 bg-gradient-to-br from-gray-900 to-black">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-12" data-aos="fade-up">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                O que Nossos Alunos <span className="text-cyan-400">Realmente Pensam</span>
+                            </h2>
+                            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                                Veja os depoimentos reais de estudantes que transformaram suas vidas com o IA Gabaritei
+                            </p>
+                        </div>
+
+                        <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                            {/* CARROSSEL DE PRINTS */}
+                            <div className="relative bg-gray-800/50 rounded-2xl p-8 border border-cyan-500/30">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="text-2xl font-bold text-cyan-400">
+                                        <FaQuoteLeft className="inline mr-2" />
+                                        Depoimentos Reais
+                                    </h3>
+                                    <div className="flex items-center space-x-2 text-gray-400">
+                                        <span className="text-sm">{currentPrint + 1} / {printsDepoimentos.length}</span>
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    {/* IMAGEM DO PRINT */}
+                                    <div className="bg-black rounded-lg overflow-hidden shadow-2xl">
+                                        <img 
+                                            src={printsDepoimentos[currentPrint].image}
+                                            alt={printsDepoimentos[currentPrint].alt}
+                                            className="w-full h-auto max-h-96 object-contain mx-auto"
+                                        />
+                                    </div>
+                                    
+                                    {/* DESCRIÇÃO */}
+                                    <p className="text-center text-gray-300 mt-4 italic">
+                                        {printsDepoimentos[currentPrint].description}
+                                    </p>
+
+                                    {/* CONTROLES DO CARROSSEL */}
+                                    <button 
+                                        onClick={prevPrint}
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                                    >
+                                        <FaArrowLeft />
+                                    </button>
+                                    <button 
+                                        onClick={nextPrint}
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                                    >
+                                        <FaArrowRight />
+                                    </button>
+                                </div>
+
+                                {/* INDICADORES */}
+                                <div className="flex justify-center mt-6 space-x-2">
+                                    {printsDepoimentos.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentPrint(index)}
+                                            className={`w-3 h-3 rounded-full transition-all ${
+                                                index === currentPrint ? 'bg-cyan-400' : 'bg-gray-600'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* ESTATÍSTICAS ABAIXO DO CARROSSEL */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={97} suffix="%" className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Taxa de Satisfação</p>
+                                </div>
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={3742} className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Aprovações Conquistadas</p>
+                                </div>
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={94} suffix="%" className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Indicariam para Amigos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
 
                 {/* ======================================= */}
 {/* SEÇÃO 2: STORYTELLING E PROBLEMA         */}
@@ -413,9 +586,8 @@ export default function LandingPage() {
             <p className="text-gray-400 mt-2">O investimento que separa você do seu nome no Diário Oficial.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <PlanoCard dataAos="fade-up" dataAosDelay="0" title="Anual Essencial" price="R$ 29" priceDetail="/por ano" tag="Plano Anual" items={['Acesso ilimitado ao Mentor IA', 'Planos de Estudos Adaptativos', '20 Questões por dia', 'Suporte prioritário']} cta="GARANTIR ACESSO ANUAL" />
-            <PlanoCard dataAos="fade-up" dataAosDelay="150" title="Anual Premium +" price="R$ 49" priceDetail="/por ano" tag="MAIS VENDIDO!" isFeatured={true} items={['Acesso ILIMITADO ao Mentor IA', 'Planos de Estudos DINÂMICOS', 'Questões ILIMITADAS', 'Suporte PREMIUM 24/7', 'Análise Avançada de Desempenho']} cta="QUERO O PREMIUM ANUAL" />
-            <PlanoCard dataAos="fade-up" dataAosDelay="300" title="Anual Elite" price="R$ 79" priceDetail="/por ano" tag="Aprovação Turbo" featureColor="blue" items={['TUDO do Premium +', 'Sessões de Mentoria Humana', 'Revisões Inteligentes com IA', 'Simulação de Redações com Feedback']} cta="ME TORNAR ELITE" />
+            <PlanoCard dataAos="fade-up" dataAosDelay="300" title="Anual Elite" price="R$ 49" priceDetail="/por ano" tag="Aprovação Turbo" featureColor="blue" items={['TUDO do Premium +', 'Sessões de Mentoria Humana', 'Revisões Inteligentes com IA', 'Simulação de Redações com Feedback']} cta="ME TORNAR ELITE" />
+            <PlanoCard dataAos="fade-up" dataAosDelay="150" title="Anual Premium +" price="R$ 79" priceDetail="/por ano" tag="MAIS VENDIDO!" isFeatured={true} items={['Acesso ILIMITADO ao Mentor IA', 'Planos de Estudos DINÂMICOS', 'Questões ILIMITADAS', 'Suporte PREMIUM 24/7', 'Análise Avançada de Desempenho']} cta="QUERO O PREMIUM ANUAL" />
         </div>
     </div>
 </section>
