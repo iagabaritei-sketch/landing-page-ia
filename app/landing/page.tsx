@@ -214,26 +214,7 @@ export default function LandingPage() {
             <div className="fixed bottom-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
 
             <main className="relative z-10">
-                {/* --- NOVO: HEADER COM LOGO --- */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
-                <div className="container mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            <FaBrain className="text-3xl text-cyan-400" />
-                            <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                                    IA GABARITEI
-                                </h1>
-                                <p className="text-xs text-gray-400">Plataforma de Estudos Inteligente</p>
-                            </div>
-                        </div>
-                        
-                        <a href="#planos" className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-                            Começar Agora
-                        </a>
-                    </div>
-                </div>
-            </header>
+           
                 {/* ======================================= */}
                 {/* SEÇÃO 1: HEADLINE E VÍDEO DE VENDAS     */}
                 {/* ======================================= */}
