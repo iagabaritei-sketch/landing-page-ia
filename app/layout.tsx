@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "IA Gabaritei - Plataforma de Estudos Inteligente",
-  description: "GSua plataforma de estudos com IA para ENEM e concursos. Aprovação garantida com método comprovado.",
+  description: "Sua plataforma de estudos com IA para ENEM e concursos. Aprovação garantida com método comprovado.",
 };
 
 export default function RootLayout({

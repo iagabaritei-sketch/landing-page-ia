@@ -566,9 +566,49 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-bold">Escolha o Plano da Sua Aprovação.</h2>
             <p className="text-gray-400 mt-2">O investimento que separa você do seu nome no Diário Oficial.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <PlanoCard dataAos="fade-up" dataAosDelay="300" title="Anual Elite" price="R$ 49" priceDetail="/por ano" tag="Aprovação Turbo" featureColor="blue" items={['TUDO do Premium +', 'Sessões de Mentoria Humana', 'Revisões Inteligentes com IA', 'Simulação de Redações com Feedback']} cta="ME TORNAR ELITE" />
-            <PlanoCard dataAos="fade-up" dataAosDelay="150" title="Anual Premium +" price="R$ 79" priceDetail="/por ano" tag="MAIS VENDIDO!" isFeatured={true} items={['Acesso ILIMITADO ao Mentor IA', 'Planos de Estudos DINÂMICOS', 'Questões ILIMITADAS', 'Suporte PREMIUM 24/7', 'Análise Avançada de Desempenho']} cta="QUERO O PREMIUM ANUAL" />
+
+        {/* Contêiner com as classes corrigidas para centralizar */}
+        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
+            
+            {/* Card do Plano Elite com a nova propriedade 'link' */}
+            <PlanoCard 
+                dataAos="fade-up" 
+                dataAosDelay="300" 
+                title="Anual Elite" 
+                price="R$ 49" 
+                priceDetail="/por ano" 
+                tag="Aprovação Turbo" 
+                featureColor="blue" 
+                items={[
+                    'TUDO do Premium +', 
+                    'Sessões de Mentoria Humana', 
+                    'Revisões Inteligentes com IA', 
+                    'Simulação de Redações com Feedback'
+                ]} 
+                cta="ME TORNAR ELITE"
+                link="https://pay.kiwify.com.br/QuDnKAZ" // <-- Adicione o link aqui
+            />
+            
+            {/* Card do Plano Premium+ com a nova propriedade 'link' */}
+            <PlanoCard 
+                dataAos="fade-up" 
+                dataAosDelay="150" 
+                title="Anual Premium +" 
+                price="R$ 79" 
+                priceDetail="/por ano" 
+                tag="MAIS VENDIDO!" 
+                isFeatured={true} 
+                items={[
+                    'Acesso ILIMITADO ao Mentor IA', 
+                    'Planos de Estudos DINÂMICOS', 
+                    'Questões ILIMITADAS', 
+                    'Suporte PREMIUM 24/7', 
+                    'Análise Avançada de Desempenho'
+                ]} 
+                cta="QUERO O PREMIUM ANUAL" 
+                link="https://pay.kiwify.com.br/hq9rvpK" // <-- Adicione o outro link aqui
+            />
+
         </div>
     </div>
 </section>
@@ -722,32 +762,36 @@ const HowToUseCard = ({ number, title, description, dataAos, dataAosDelay }: How
     </div>
 );
 
+// O tipo das propriedades
 type PlanoCardProps = {
-  title: string;
-  price: string;
-  priceDetail: string;
-  items: string[];
-  tag?: string;
-  isFeatured?: boolean;
-  featureColor?: string;
-  cta: string;
-  dataAos: string;
-  dataAosDelay: string;
+  title: string;
+  price: string;
+  priceDetail: string;
+  items: string[];
+  tag?: string;
+  isFeatured?: boolean;
+  featureColor?: string;
+  cta: string;
+  dataAos: string;
+  dataAosDelay: string;
+  link: string; // <-- 1. ADICIONE ESTA LINHA
 };
 
-const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay }: PlanoCardProps) => (
-    <div className={`bg-gray-800/50 p-8 rounded-xl flex flex-col border ${isFeatured ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') : 'border-gray-700'} relative transform hover:-translate-y-2 transition-transform duration-300 group`} data-aos={dataAos} data-aos-delay={dataAosDelay}>
-        {tag && <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-sm font-bold px-3 py-1 rounded-full ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') : 'bg-gray-600'}`}>{tag}</div>}
-        <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{title}</h3>
-        <p className="text-5xl font-extrabold mb-1">{price}<span className="text-lg font-normal text-gray-400">{priceDetail}</span></p>
-        <p className="text-sm text-gray-500 mb-6">Cobrado anualmente</p>
-        <ul className="space-y-3 mb-8 text-gray-300 flex-grow">
-            {items.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 group-hover:translate-x-1 transition-transform"><FaCheck className="text-green-500 mt-1 flex-shrink-0" /><span>{item}</span></li>
-            ))}
-        </ul>
-        <a href="https://pay.kiwify.com.br/81ZlICv" target="_blank" rel="noopener noreferrer" className={`block text-center w-full font-bold py-3 px-6 rounded-lg text-lg transition-all ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-cyan-500 hover:bg-cyan-600') : 'bg-gray-700 hover:bg-gray-600'} group-hover:scale-105`}>{cta}</a>
-    </div>
+// A definição do card
+const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => ( // <-- 2. ADICIONE 'link' AQUI DENTRO DOS PARÊNTESES
+    <div className={`bg-gray-800/50 p-8 rounded-xl flex flex-col border ${isFeatured ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') : 'border-gray-700'} relative transform hover:-translate-y-2 transition-transform duration-300 group`} data-aos={dataAos} data-aos-delay={dataAosDelay}>
+        {/* ... o resto do código do card continua igual ... */}
+        {tag && <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-sm font-bold px-3 py-1 rounded-full ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') : 'bg-gray-600'}`}>{tag}</div>}
+        <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{title}</h3>
+        <p className="text-5xl font-extrabold mb-1">{price}<span className="text-lg font-normal text-gray-400">{priceDetail}</span></p>
+        <p className="text-sm text-gray-500 mb-6">Cobrado anualmente</p>
+        <ul className="space-y-3 mb-8 text-gray-300 flex-grow">
+            {items.map((item: string, i: number) => (
+                <li key={i} className="flex items-start gap-2 group-hover:translate-x-1 transition-transform"><FaCheck className="text-green-500 mt-1 flex-shrink-0" /><span>{item}</span></li>
+            ))}
+        </ul>
+        <a href={link} target="_blank" rel="noopener noreferrer" className={`block text-center w-full font-bold py-3 px-6 rounded-lg text-lg transition-all ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-cyan-500 hover:bg-cyan-600') : 'bg-gray-700 hover:bg-gray-600'} group-hover:scale-105`}>{cta}</a> {/* <-- 3. ALTERE O href PARA USAR A VARIÁVEL 'link' */}
+    </div>
 );
 
 type TestimonialCardProps = {

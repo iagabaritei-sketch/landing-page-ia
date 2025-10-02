@@ -12,7 +12,7 @@ import CountUp from 'react-countup';
 import { 
     FaBrain, FaRocket, FaCheck, FaChevronDown, FaChevronUp, FaUserGraduate, 
     FaShieldAlt, FaBullseye, FaPenFancy, FaGraduationCap, FaMedal, FaTrophy,
-    FaVolumeUp 
+    FaVolumeUp, FaArrowLeft, FaArrowRight, FaQuoteLeft 
 } from 'react-icons/fa';
 
 // --- CORREÇÃO DE TIPAGEM (any) ---
@@ -40,6 +40,7 @@ interface YTPlayer {
 // ============================================================================
 export default function LandingPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [currentPrint, setCurrentPrint] = useState(0);
     
     // --- LÓGICA DO VÍDEO COM TIPAGEM CORRIGIDA ---
     // 3. Usamos nossa interface YTPlayer para a tipagem do estado 'player'.
@@ -84,6 +85,59 @@ export default function LandingPage() {
 
     }, []);
     // --- FIM DA LÓGICA DO VÍDEO ---
+
+     // --- NOVO: LISTA DE PRINTS DOS DEPOIMENTOS ---
+    const printsDepoimentos = [
+        {
+            id: 1,
+            image: "/depoimentos/depoimento-1.jpeg",
+            alt: "Depoimento de aluno satisfeito com o IA Gabaritei",
+            description: "Aluno relatando melhora significativa nas notas"
+        },
+        
+        {
+            id: 2, 
+            image: "/depoimentos/depoimento-2.jpeg",
+            alt: "Conversa mostrando aprovação de aluno",
+            description: "Comemoração de aprovação após usar a plataforma"
+        },
+        {
+            id: 3,
+            image: "/depoimentos/depoimento-3.jpeg",
+            alt: "Feedback positivo sobre o método",
+            description: "Aluno destacando a eficácia do plano de estudos"
+        },
+        {
+            id: 4,
+            image: "/depoimentos/depoimento-4.jpeg", 
+            alt: "Relato de experiência positiva",
+            description: "Depoimento sobre a transformação no aprendizado"
+        },
+        {
+            id: 5,
+            image: "/depoimentos/depoimento-5.jpeg",
+            alt: "Conversa de agradecimento",
+            description: "Aluno agradecendo pelos resultados obtidos"
+        },
+
+        {
+            id: 6,
+            image: "/depoimentos/depoimento-6.jpeg",
+            alt: "Depoimento de aluno satisfeito com o IA Gabaritei",
+            description: "Aluno relatando melhora significativa nas notas"
+        }
+        
+        
+    ];
+
+    // --- NOVO: FUNÇÕES PARA NAVEGAR NO CARROSSEL ---
+    const nextPrint = () => {
+        setCurrentPrint((prev) => (prev + 1) % printsDepoimentos.length);
+    };
+
+    const prevPrint = () => {
+        setCurrentPrint((prev) => (prev - 1 + printsDepoimentos.length) % printsDepoimentos.length);
+    };
     
     const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 59, seconds: 59 });
 
@@ -125,7 +179,15 @@ export default function LandingPage() {
             setTimeLeft({ hours, minutes, seconds });
         }, 1000);
 
-        return () => clearInterval(timer);
+        // --- NOVO: AUTO-ROTAÇÃO DO CARROSSEL ---
+        const carouselInterval = setInterval(() => {
+            setCurrentPrint((prev) => (prev + 1) % printsDepoimentos.length);
+        }, 5000); // Muda a cada 5 segundos
+
+        return () => {
+            clearInterval(timer);
+            clearInterval(carouselInterval); // Limpa o intervalo do carrossel também
+        };
     }, []);
     
     const faqItems = [
@@ -152,6 +214,7 @@ export default function LandingPage() {
             <div className="fixed bottom-1/3 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
 
             <main className="relative z-10">
+           
                 {/* ======================================= */}
                 {/* SEÇÃO 1: HEADLINE E VÍDEO DE VENDAS     */}
                 {/* ======================================= */}
@@ -217,6 +280,97 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </section>
+                {/* ======================================= */}
+                {/* --- NOVA SEÇÃO: CARROSSEL DE PRINTS --- */}
+                {/* ======================================= */}
+                <section className="py-20 bg-gradient-to-br from-gray-900 to-black">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-12" data-aos="fade-up">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                                O que Nossos Alunos <span className="text-cyan-400">Realmente Pensam</span>
+                            </h2>
+                            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                                Veja os depoimentos reais de estudantes que transformaram suas vidas com o IA Gabaritei
+                            </p>
+                        </div>
+
+                        <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                            {/* CARROSSEL DE PRINTS */}
+                            <div className="relative bg-gray-800/50 rounded-2xl p-8 border border-cyan-500/30">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="text-2xl font-bold text-cyan-400">
+                                        <FaQuoteLeft className="inline mr-2" />
+                                        Depoimentos Reais
+                                    </h3>
+                                    <div className="flex items-center space-x-2 text-gray-400">
+                                        <span className="text-sm">{currentPrint + 1} / {printsDepoimentos.length}</span>
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    {/* IMAGEM DO PRINT */}
+                                    <div className="bg-black rounded-lg overflow-hidden shadow-2xl">
+                                        <img 
+                                            src={printsDepoimentos[currentPrint].image}
+                                            alt={printsDepoimentos[currentPrint].alt}
+                                            className="w-full h-auto max-h-96 object-contain mx-auto"
+                                        />
+                                    </div>
+                                    
+                                    {/* DESCRIÇÃO */}
+                                    <p className="text-center text-gray-300 mt-4 italic">
+                                        {printsDepoimentos[currentPrint].description}
+                                    </p>
+
+                                    {/* CONTROLES DO CARROSSEL */}
+                                    <button 
+                                        onClick={prevPrint}
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                                    >
+                                        <FaArrowLeft />
+                                    </button>
+                                    <button 
+                                        onClick={nextPrint}
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+                                    >
+                                        <FaArrowRight />
+                                    </button>
+                                </div>
+
+                                {/* INDICADORES */}
+                                <div className="flex justify-center mt-6 space-x-2">
+                                    {printsDepoimentos.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentPrint(index)}
+                                            className={`w-3 h-3 rounded-full transition-all ${
+                                                index === currentPrint ? 'bg-cyan-400' : 'bg-gray-600'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* ESTATÍSTICAS ABAIXO DO CARROSSEL */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={97} suffix="%" className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Taxa de Satisfação</p>
+                                </div>
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={3742} className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Aprovações Conquistadas</p>
+                                </div>
+                                <div className="text-center p-6 bg-gray-800/30 rounded-xl border border-cyan-500/20">
+                                    <CountUp end={94} suffix="%" className="text-4xl font-bold text-cyan-400 block" />
+                                    <p className="text-gray-300 mt-2">Indicariam para Amigos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
 
                 {/* ======================================= */}
 {/* SEÇÃO 2: STORYTELLING E PROBLEMA         */}
@@ -412,10 +566,49 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-bold">Escolha o Plano da Sua Aprovação.</h2>
             <p className="text-gray-400 mt-2">O investimento que separa você do seu nome no Diário Oficial.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <PlanoCard dataAos="fade-up" dataAosDelay="0" title="Anual Essencial" price="R$ 29" priceDetail="/por ano" tag="Plano Anual" items={['Acesso ilimitado ao Mentor IA', 'Planos de Estudos Adaptativos', '20 Questões por dia', 'Suporte prioritário']} cta="GARANTIR ACESSO ANUAL" />
-            <PlanoCard dataAos="fade-up" dataAosDelay="150" title="Anual Premium +" price="R$ 49" priceDetail="/por ano" tag="MAIS VENDIDO!" isFeatured={true} items={['Acesso ILIMITADO ao Mentor IA', 'Planos de Estudos DINÂMICOS', 'Questões ILIMITADAS', 'Suporte PREMIUM 24/7', 'Análise Avançada de Desempenho']} cta="QUERO O PREMIUM ANUAL" />
-            <PlanoCard dataAos="fade-up" dataAosDelay="300" title="Anual Elite" price="R$ 79" priceDetail="/por ano" tag="Aprovação Turbo" featureColor="blue" items={['TUDO do Premium +', 'Sessões de Mentoria Humana', 'Revisões Inteligentes com IA', 'Simulação de Redações com Feedback']} cta="ME TORNAR ELITE" />
+
+        {/* Contêiner com as classes corrigidas para centralizar */}
+        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
+            
+            {/* Card do Plano Elite com a nova propriedade 'link' */}
+            <PlanoCard 
+                dataAos="fade-up" 
+                dataAosDelay="300" 
+                title="Anual Elite" 
+                price="R$ 49" 
+                priceDetail="/por ano" 
+                tag="Aprovação Turbo" 
+                featureColor="blue" 
+                items={[
+                    'TUDO do Premium +', 
+                    'Sessões de Mentoria Humana', 
+                    'Revisões Inteligentes com IA', 
+                    'Simulação de Redações com Feedback'
+                ]} 
+                cta="ME TORNAR ELITE"
+                link="https://pay.kiwify.com.br/QuDnKAZ" // <-- Adicione o link aqui
+            />
+            
+            {/* Card do Plano Premium+ com a nova propriedade 'link' */}
+            <PlanoCard 
+                dataAos="fade-up" 
+                dataAosDelay="150" 
+                title="Anual Premium +" 
+                price="R$ 79" 
+                priceDetail="/por ano" 
+                tag="MAIS VENDIDO!" 
+                isFeatured={true} 
+                items={[
+                    'Acesso ILIMITADO ao Mentor IA', 
+                    'Planos de Estudos DINÂMICOS', 
+                    'Questões ILIMITADAS', 
+                    'Suporte PREMIUM 24/7', 
+                    'Análise Avançada de Desempenho'
+                ]} 
+                cta="QUERO O PREMIUM ANUAL" 
+                link="https://pay.kiwify.com.br/hq9rvpK" // <-- Adicione o outro link aqui
+            />
+
         </div>
     </div>
 </section>
@@ -569,32 +762,36 @@ const HowToUseCard = ({ number, title, description, dataAos, dataAosDelay }: How
     </div>
 );
 
+// O tipo das propriedades
 type PlanoCardProps = {
-  title: string;
-  price: string;
-  priceDetail: string;
-  items: string[];
-  tag?: string;
-  isFeatured?: boolean;
-  featureColor?: string;
-  cta: string;
-  dataAos: string;
-  dataAosDelay: string;
+  title: string;
+  price: string;
+  priceDetail: string;
+  items: string[];
+  tag?: string;
+  isFeatured?: boolean;
+  featureColor?: string;
+  cta: string;
+  dataAos: string;
+  dataAosDelay: string;
+  link: string; // <-- 1. ADICIONE ESTA LINHA
 };
 
-const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay }: PlanoCardProps) => (
-    <div className={`bg-gray-800/50 p-8 rounded-xl flex flex-col border ${isFeatured ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') : 'border-gray-700'} relative transform hover:-translate-y-2 transition-transform duration-300 group`} data-aos={dataAos} data-aos-delay={dataAosDelay}>
-        {tag && <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-sm font-bold px-3 py-1 rounded-full ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') : 'bg-gray-600'}`}>{tag}</div>}
-        <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{title}</h3>
-        <p className="text-5xl font-extrabold mb-1">{price}<span className="text-lg font-normal text-gray-400">{priceDetail}</span></p>
-        <p className="text-sm text-gray-500 mb-6">Cobrado anualmente</p>
-        <ul className="space-y-3 mb-8 text-gray-300 flex-grow">
-            {items.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 group-hover:translate-x-1 transition-transform"><FaCheck className="text-green-500 mt-1 flex-shrink-0" /><span>{item}</span></li>
-            ))}
-        </ul>
-        <a href="https://pay.kiwify.com.br/81ZlICv" target="_blank" rel="noopener noreferrer" className={`block text-center w-full font-bold py-3 px-6 rounded-lg text-lg transition-all ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-cyan-500 hover:bg-cyan-600') : 'bg-gray-700 hover:bg-gray-600'} group-hover:scale-105`}>{cta}</a>
-    </div>
+// A definição do card
+const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => ( // <-- 2. ADICIONE 'link' AQUI DENTRO DOS PARÊNTESES
+    <div className={`bg-gray-800/50 p-8 rounded-xl flex flex-col border ${isFeatured ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') : 'border-gray-700'} relative transform hover:-translate-y-2 transition-transform duration-300 group`} data-aos={dataAos} data-aos-delay={dataAosDelay}>
+        {/* ... o resto do código do card continua igual ... */}
+        {tag && <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-sm font-bold px-3 py-1 rounded-full ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') : 'bg-gray-600'}`}>{tag}</div>}
+        <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{title}</h3>
+        <p className="text-5xl font-extrabold mb-1">{price}<span className="text-lg font-normal text-gray-400">{priceDetail}</span></p>
+        <p className="text-sm text-gray-500 mb-6">Cobrado anualmente</p>
+        <ul className="space-y-3 mb-8 text-gray-300 flex-grow">
+            {items.map((item: string, i: number) => (
+                <li key={i} className="flex items-start gap-2 group-hover:translate-x-1 transition-transform"><FaCheck className="text-green-500 mt-1 flex-shrink-0" /><span>{item}</span></li>
+            ))}
+        </ul>
+        <a href={link} target="_blank" rel="noopener noreferrer" className={`block text-center w-full font-bold py-3 px-6 rounded-lg text-lg transition-all ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-cyan-500 hover:bg-cyan-600') : 'bg-gray-700 hover:bg-gray-600'} group-hover:scale-105`}>{cta}</a> {/* <-- 3. ALTERE O href PARA USAR A VARIÁVEL 'link' */}
+    </div>
 );
 
 type TestimonialCardProps = {
