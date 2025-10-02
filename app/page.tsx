@@ -558,19 +558,32 @@ export default function LandingPage() {
 </section>
 
 {/* ======================================= */}
-{/* SEÇÃO 7: PLANOS                         */}
+{/* SEÇÃO 7: PLANOS (VERSÃO APRIMORADA)     */}
 {/* ======================================= */}
-<section id="planos" className="py-20 bg-black/20 relative">
-    <div className="container mx-auto px-6">
-        <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold">Escolha o Plano da Sua Aprovação.</h2>
-            <p className="text-gray-400 mt-2">O investimento que separa você do seu nome no Diário Oficial.</p>
-        </div>
+<section id="planos" className="py-24 relative overflow-hidden bg-gray-950">
+    {/* Efeito de fundo: um brilho sutil para destacar a seção */}
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60rem] h-[60rem] bg-cyan-500/10 rounded-full blur-3xl -z-0"></div>
 
-        {/* Contêiner com as classes corrigidas para centralizar */}
-        <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
+    <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16" data-aos="fade-up">
+    <div className="inline-flex items-center justify-center bg-cyan-900/50 px-4 py-2 rounded-full mb-6 border border-cyan-500/30">
+        <FaShieldAlt className="text-cyan-400 mr-2"/>
+        <span className="text-cyan-400 text-sm font-medium">Investimento Seguro</span>
+    </div>
+    {/* Título principal ainda maior */}
+    <h2 className="text-6xl md:text-7xl font-extrabold leading-tight"> {/* <-- MUDANÇA AQUI */}
+        Escolha o Plano da <br/> <span className="text-cyan-400">Sua Aprovação</span>
+    </h2>
+    {/* Subtítulo com mais destaque */}
+    <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-xl"> {/* <-- MUDANÇA AQUI */}
+        O único investimento que separa você do seu nome no Diário Oficial.
+    </p>
+</div>
+
+        {/* Contêiner dos cards */}
+        <div className="flex flex-wrap justify-center items-stretch gap-8 max-w-5xl mx-auto">
             
-            {/* Card do Plano Elite com a nova propriedade 'link' */}
+            {/* Card do Plano Elite */}
             <PlanoCard 
                 dataAos="fade-up" 
                 dataAosDelay="300" 
@@ -580,16 +593,17 @@ export default function LandingPage() {
                 tag="Aprovação Turbo" 
                 featureColor="blue" 
                 items={[
-                    'TUDO do Premium +', 
-                    'Sessões de Mentoria Humana', 
-                    'Revisões Inteligentes com IA', 
-                    'Simulação de Redações com Feedback'
+                    'Acesso ILIMITADO ao Mentor IA', 
+                    'Planos de Estudos DINÂMICOS', 
+                    'Questões ILIMITADAS', 
+                    'Suporte PREMIUM 24/7', 
+                    'Análise Avançada de Desempenho'
                 ]} 
                 cta="ME TORNAR ELITE"
-                link="https://pay.kiwify.com.br/QuDnKAZ" // <-- Adicione o link aqui
+                link="https://pay.kiwify.com.br/QuDnKAZ"
             />
             
-            {/* Card do Plano Premium+ com a nova propriedade 'link' */}
+            {/* Card do Plano Premium+ */}
             <PlanoCard 
                 dataAos="fade-up" 
                 dataAosDelay="150" 
@@ -599,20 +613,18 @@ export default function LandingPage() {
                 tag="MAIS VENDIDO!" 
                 isFeatured={true} 
                 items={[
-                    'Acesso ILIMITADO ao Mentor IA', 
-                    'Planos de Estudos DINÂMICOS', 
-                    'Questões ILIMITADAS', 
-                    'Suporte PREMIUM 24/7', 
-                    'Análise Avançada de Desempenho'
+                    'TUDO do Premium +', 
+                    'Sessões de Mentoria Humana', 
+                    'Revisões Inteligentes com IA', 
+                    'Simulação de Redações com Feedback'
                 ]} 
                 cta="QUERO O PREMIUM ANUAL" 
-                link="https://pay.kiwify.com.br/hq9rvpK" // <-- Adicione o outro link aqui
+                link="https://pay.kiwify.com.br/hq9rvpK"
             />
 
         </div>
     </div>
 </section>
-
 {/* ======================================= */}
 {/* SEÇÃO 8: GARANTIA INCONDICIONAL         */}
 {/* ======================================= */}
@@ -778,20 +790,66 @@ type PlanoCardProps = {
 };
 
 // A definição do card
-const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => ( // <-- 2. ADICIONE 'link' AQUI DENTRO DOS PARÊNTESES
-    <div className={`bg-gray-800/50 p-8 rounded-xl flex flex-col border ${isFeatured ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') : 'border-gray-700'} relative transform hover:-translate-y-2 transition-transform duration-300 group`} data-aos={dataAos} data-aos-delay={dataAosDelay}>
-        {/* ... o resto do código do card continua igual ... */}
-        {tag && <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-sm font-bold px-3 py-1 rounded-full ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') : 'bg-gray-600'}`}>{tag}</div>}
-        <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{title}</h3>
-        <p className="text-5xl font-extrabold mb-1">{price}<span className="text-lg font-normal text-gray-400">{priceDetail}</span></p>
-        <p className="text-sm text-gray-500 mb-6">Cobrado anualmente</p>
-        <ul className="space-y-3 mb-8 text-gray-300 flex-grow">
-            {items.map((item: string, i: number) => (
-                <li key={i} className="flex items-start gap-2 group-hover:translate-x-1 transition-transform"><FaCheck className="text-green-500 mt-1 flex-shrink-0" /><span>{item}</span></li>
-            ))}
-        </ul>
-        <a href={link} target="_blank" rel="noopener noreferrer" className={`block text-center w-full font-bold py-3 px-6 rounded-lg text-lg transition-all ${isFeatured ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-cyan-500 hover:bg-cyan-600') : 'bg-gray-700 hover:bg-gray-600'} group-hover:scale-105`}>{cta}</a> {/* <-- 3. ALTERE O href PARA USAR A VARIÁVEL 'link' */}
-    </div>
+const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => (
+    <div 
+        className={`
+            bg-gradient-to-br from-gray-900 to-gray-800/90 p-8 rounded-2xl flex flex-col border transition-all duration-300 group
+            ${isFeatured 
+                ? (featureColor === 'blue' ? 'border-blue-500 shadow-2xl shadow-blue-500/20' : 'border-cyan-500 shadow-2xl shadow-cyan-500/20') 
+                : 'border-gray-700/50 hover:border-cyan-500/50'
+            } 
+            relative transform hover:-translate-y-3
+        `} 
+        data-aos={dataAos} 
+        data-aos-delay={dataAosDelay}
+    >
+        {tag && 
+            <div className={`absolute -top-4 left-1/2 -translate-x-1/2 text-sm font-bold px-4 py-1.5 rounded-full tracking-wider uppercase
+                ${isFeatured 
+                    ? (featureColor === 'blue' ? 'bg-blue-500' : 'bg-cyan-500') 
+                    : 'bg-gray-600'
+                }
+            `}>{tag}</div>
+        }
+        
+        {/* TÍTULO DO CARD: Aumentado para 4xl */}
+        <h3 className="text-4xl font-extrabold mb-4 text-center group-hover:text-cyan-400 transition-colors">{title}</h3>
+        
+        <div className="text-center my-4">
+            <span className="text-2xl font-medium text-gray-400 align-top">R$ </span>
+            <span className="text-7xl font-bold tracking-tighter text-white">{price.replace('R$ ', '')}</span>
+            <span className="text-lg font-medium text-gray-400">{priceDetail}</span>
+        </div>
+        
+        <p className="text-sm text-gray-500 mb-8 text-center">Cobrado anualmente</p>
+
+        {/* LISTA DE BENEFÍCIOS: Texto aumentado para text-lg */}
+        <ul className="space-y-4 mb-10 text-gray-300 flex-grow">
+            {items.map((item: string, i: number) => (
+                <li key={i} className="flex items-center gap-3 border-b border-gray-700/60 pb-3">
+                    <FaCheck className="text-green-500 flex-shrink-0" />
+                    <span className="text-lg">{item}</span>
+                </li>
+            ))}
+        </ul>
+
+        {/* BOTÃO CTA: Texto aumentado para 2xl */}
+        <a 
+            href={link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={`
+                flex items-center justify-center gap-2 text-center w-full font-bold py-4 px-6 rounded-lg text-2xl transition-all duration-300 shadow-lg
+                ${isFeatured 
+                    ? (featureColor === 'blue' ? 'bg-blue-500 hover:bg-blue-600 shadow-blue-500/30' : 'bg-cyan-500 hover:bg-cyan-600 shadow-cyan-500/30') 
+                    : 'bg-gray-700 hover:bg-gray-600'
+                } 
+                transform group-hover:scale-105 group-hover:shadow-xl
+            `}
+        >
+            {cta} <FaArrowRight className="opacity-0 group-hover:opacity-100 transition-opacity ml-1" />
+        </a>
+    </div>
 );
 
 type TestimonialCardProps = {
