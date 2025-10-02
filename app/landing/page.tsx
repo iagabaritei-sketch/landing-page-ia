@@ -613,7 +613,7 @@ export default function LandingPage() {
                 tag="MAIS VENDIDO!" 
                 isFeatured={true} 
                 items={[
-                    'TUDO do Premium +', 
+                    'TUDO do Anual Elite', 
                     'Sessões de Mentoria Humana', 
                     'Revisões Inteligentes com IA', 
                     'Simulação de Redações com Feedback'
