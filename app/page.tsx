@@ -566,29 +566,28 @@ export default function LandingPage() {
 
     <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16" data-aos="fade-up">
-    <div className="inline-flex items-center justify-center bg-cyan-900/50 px-4 py-2 rounded-full mb-6 border border-cyan-500/30">
-        <FaShieldAlt className="text-cyan-400 mr-2"/>
-        <span className="text-cyan-400 text-sm font-medium">Investimento Seguro</span>
-    </div>
-    {/* Título principal ainda maior */}
-    <h2 className="text-6xl md:text-7xl font-extrabold leading-tight"> {/* <-- MUDANÇA AQUI */}
-        Escolha o Plano da <br/> <span className="text-cyan-400">Sua Aprovação</span>
-    </h2>
-    {/* Subtítulo com mais destaque */}
-    <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-xl"> {/* <-- MUDANÇA AQUI */}
-        O único investimento que separa você do seu nome no Diário Oficial.
-    </p>
-</div>
+            <div className="inline-flex items-center justify-center bg-cyan-900/50 px-4 py-2 rounded-full mb-6 border border-cyan-500/30">
+                <FaShieldAlt className="text-cyan-400 mr-2"/>
+                <span className="text-cyan-400 text-sm font-medium">Investimento Seguro</span>
+            </div>
+            <h2 className="text-6xl md:text-7xl font-extrabold leading-tight">
+                Escolha o Plano da <br/> <span className="text-cyan-400">Sua Aprovação</span>
+            </h2>
+            <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-xl">
+                O único investimento que separa você do seu nome no Diário Oficial.
+            </p>
+        </div>
 
-        {/* Contêiner dos cards */}
+        {/* Contêiner dos cards com a propriedade 'originalPrice' adicionada */}
         <div className="flex flex-wrap justify-center items-stretch gap-8 max-w-5xl mx-auto">
             
-            {/* Card do Plano Elite */}
+            {/* Card do Plano Elite com o preço original */}
             <PlanoCard 
                 dataAos="fade-up" 
                 dataAosDelay="300" 
                 title="Anual Elite" 
-                price="R$ 49" 
+                price="R$ 49"
+                originalPrice="R$ 297" // <-- ADICIONAMOS ISSO
                 priceDetail="/por ano" 
                 tag="Aprovação Turbo" 
                 featureColor="blue" 
@@ -603,12 +602,13 @@ export default function LandingPage() {
                 link="https://pay.kiwify.com.br/QuDnKAZ"
             />
             
-            {/* Card do Plano Premium+ */}
+            {/* Card do Plano Premium+ com o preço original */}
             <PlanoCard 
                 dataAos="fade-up" 
                 dataAosDelay="150" 
                 title="Anual Premium +" 
                 price="R$ 79" 
+                originalPrice="R$ 397" // <-- ADICIONAMOS ISSO
                 priceDetail="/por ano" 
                 tag="MAIS VENDIDO!" 
                 isFeatured={true} 
@@ -774,23 +774,24 @@ const HowToUseCard = ({ number, title, description, dataAos, dataAosDelay }: How
     </div>
 );
 
-// O tipo das propriedades
+// Adicione a nova propriedade 'originalPrice' como opcional na lista de tipos
 type PlanoCardProps = {
-  title: string;
-  price: string;
-  priceDetail: string;
-  items: string[];
-  tag?: string;
-  isFeatured?: boolean;
-  featureColor?: string;
-  cta: string;
-  dataAos: string;
-  dataAosDelay: string;
-  link: string; // <-- 1. ADICIONE ESTA LINHA
+    title: string;
+    price: string;
+    originalPrice?: string; // <-- ADICIONAMOS ISSO
+    priceDetail: string;
+    items: string[];
+    tag?: string;
+    isFeatured?: boolean;
+    featureColor?: string;
+    cta: string;
+    dataAos: string;
+    dataAosDelay: string;
+    link: string; 
 };
 
-// A definição do card
-const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => (
+// O componente atualizado para mostrar o preço original
+const PlanoCard = ({ title, price, originalPrice, priceDetail, items, tag, isFeatured, featureColor = 'cyan', cta, dataAos, dataAosDelay, link }: PlanoCardProps) => (
     <div 
         className={`
             bg-gradient-to-br from-gray-900 to-gray-800/90 p-8 rounded-2xl flex flex-col border transition-all duration-300 group
@@ -812,18 +813,28 @@ const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureC
             `}>{tag}</div>
         }
         
-        {/* TÍTULO DO CARD: Aumentado para 4xl */}
         <h3 className="text-4xl font-extrabold mb-4 text-center group-hover:text-cyan-400 transition-colors">{title}</h3>
         
+        {/* === ESTE É O BLOCO DE PREÇO ATUALIZADO === */}
         <div className="text-center my-4">
-            <span className="text-2xl font-medium text-gray-400 align-top">R$ </span>
-            <span className="text-7xl font-bold tracking-tighter text-white">{price.replace('R$ ', '')}</span>
-            <span className="text-lg font-medium text-gray-400">{priceDetail}</span>
-        </div>
-        
-        <p className="text-sm text-gray-500 mb-8 text-center">PLANO ANUAL<br></br>Garanta 12 meses de acesso com a oferta especial de primeiro ano.</p>
+            {/* Mostra o preço original com um risco, APENAS se ele for fornecido */}
+            {originalPrice && (
+                <p className="text-2xl text-gray-500 line-through"> 
+                    De {originalPrice}
+                </p>
+            )}
 
-        {/* LISTA DE BENEFÍCIOS: Texto aumentado para text-lg */}
+            {/* Preço com desconto */}
+            <div>
+                <span className="text-2xl font-medium text-cyan-400 align-top">Por R$ </span>
+                <span className="text-7xl font-bold tracking-tighter text-white">{price.replace('R$ ', '')}</span>
+                <span className="text-lg font-medium text-gray-400">{priceDetail}</span>
+            </div>
+        </div>
+        {/* === FIM DO BLOCO DE PREÇO === */}
+        
+        <p className="text-sm text-gray-500 mb-8 text-center">Cobrado anualmente</p>
+
         <ul className="space-y-4 mb-10 text-gray-300 flex-grow">
             {items.map((item: string, i: number) => (
                 <li key={i} className="flex items-center gap-3 border-b border-gray-700/60 pb-3">
@@ -833,7 +844,6 @@ const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureC
             ))}
         </ul>
 
-        {/* BOTÃO CTA: Texto aumentado para 2xl */}
         <a 
             href={link} 
             target="_blank" 
