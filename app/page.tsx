@@ -613,7 +613,7 @@ export default function LandingPage() {
                 tag="MAIS VENDIDO!" 
                 isFeatured={true} 
                 items={[
-                    'TUDO do Premium +', 
+                    'TUDO do Anual Elite', 
                     'Sessões de Mentoria Humana', 
                     'Revisões Inteligentes com IA', 
                     'Simulação de Redações com Feedback'
@@ -821,7 +821,7 @@ const PlanoCard = ({ title, price, priceDetail, items, tag, isFeatured, featureC
             <span className="text-lg font-medium text-gray-400">{priceDetail}</span>
         </div>
         
-        <p className="text-sm text-gray-500 mb-8 text-center">Cobrado anualmente</p>
+        <p className="text-sm text-gray-500 mb-8 text-center">PLANO ANUAL<br></br>Garanta 12 meses de acesso com a oferta especial de primeiro ano.</p>
 
         {/* LISTA DE BENEFÍCIOS: Texto aumentado para text-lg */}
         <ul className="space-y-4 mb-10 text-gray-300 flex-grow">
